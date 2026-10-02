@@ -8,6 +8,7 @@ import { Settings, Send, Bot, Wallet, Target, PiggyBank, History, MessageSquare,
 import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
+import ReactMarkdown from "react-markdown";
 
 export function Dashboard({ state, setState }: { state: AppState, setState: (s: AppState) => void }) {
   const [activeTab, setActiveTab] = useState<"dashboard" | "transactions" | "chat" | "categories">("dashboard");
@@ -177,7 +178,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
       {/* header hp */}
       <header className="lg:hidden flex items-center justify-between p-4 border-b bg-card">
         <div className="flex items-center gap-2 font-medium text-xl text-primary">
-          <Bot className="w-6 h-6" /> FinAi
+          <Bot className="w-6 h-6" /> FinAI
         </div>
         <button onClick={() => setShowSettings(true)} className="p-2 border rounded-xl"><Settings className="w-5 h-5"/></button>
       </header>
@@ -185,8 +186,8 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
       {/* sidebar desktop */}
       <aside className="hidden lg:flex w-64 flex-col border-r bg-card h-full">
         <div className="p-6 border-b">
-          <div className="flex items-center gap-2 font-medium text-2xl text-primary mb-1">
-            <Bot className="w-7 h-7" /> FinAi
+          <div className="flex items-center gap-2 font-medium text-xl md:text-2xl text-primary mb-1">
+            <Bot className="w-7 h-7" /> FinAI
           </div>
           <div className="text-sm text-muted-foreground">Hai, {state.profile.name}!</div>
         </div>
@@ -195,7 +196,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
             { id: "dashboard", icon: LayoutDashboard, label: "Dashboard" },
             { id: "transactions", icon: History, label: "Transaksi" },
             { id: "categories", icon: Wallet, label: "Kategori" },
-            { id: "chat", icon: MessageSquare, label: "FinAi Advisor" }
+            { id: "chat", icon: MessageSquare, label: "FinAI Advisor" }
           ].map(item => (
             <button
               key={item.id}
@@ -231,16 +232,16 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
               </div>
 
               {/* input cepat */}
-              <div className="bg-card border rounded-xl p-4 sm:p-6 shadow-sm">
+              <div>
                 <form onSubmit={handleInputSubmit} className="flex gap-2">
                   <input
                     type="text"
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
                     placeholder="Ketik pengeluaranmu, misal: Makan siang 25rb dan kopi 35rb"
-                    className="flex-1 border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary text-sm bg-background"
+                    className="flex-1 border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary text-sm bg-card shadow-sm"
                   />
-                  <button type="submit" className="bg-primary text-primary-foreground px-6 py-3 rounded-xl font-medium hover:opacity-90 flex items-center gap-2">
+                  <button type="submit" className="bg-primary text-primary-foreground px-6 py-3 rounded-xl font-medium hover:opacity-90 flex items-center gap-2 shadow-sm">
                     <Send className="w-4 h-4" /> <span className="hidden sm:inline">Catat</span>
                   </button>
                 </form>
@@ -297,7 +298,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
             {/* panel chat desktop */}
             <div className="hidden lg:flex lg:col-span-4 flex-col bg-card border rounded-xl shadow-sm overflow-hidden h-[calc(100vh-3rem)] sticky top-6">
               <div className="p-4 border-b bg-muted/30 font-medium flex items-center gap-2">
-                <Bot className="w-5 h-5 text-primary" /> FinAi Advisor
+                <Bot className="w-5 h-5 text-primary" /> FinAI Advisor
               </div>
               <div className="flex-1 overflow-y-auto p-4 space-y-4">
                 {state.chats.length === 0 ? (
@@ -311,7 +312,17 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
                   state.chats.map(msg => (
                     <div key={msg.id} className={`flex flex-col max-w-[85%] ${msg.role === 'user' ? 'ml-auto items-end' : 'mr-auto items-start'}`}>
                       <div className={`p-3 rounded-lg text-sm ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-tr-none' : 'bg-muted border rounded-tl-none'}`}>
-                         <div className="whitespace-pre-wrap">{msg.content}</div>
+                         <ReactMarkdown 
+                           components={{
+                             ul: ({node, ...props}) => <ul className="list-disc pl-4 space-y-1 my-2" {...props} />,
+                             ol: ({node, ...props}) => <ol className="list-decimal pl-4 space-y-1 my-2" {...props} />,
+                             li: ({node, ...props}) => <li className="" {...props} />,
+                             strong: ({node, ...props}) => <strong className="font-bold" {...props} />,
+                             p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                           }}
+                         >
+                           {msg.content}
+                         </ReactMarkdown>
                       </div>
                       <div className="text-[10px] text-muted-foreground mt-1">{format(new Date(msg.createdAt), "HH:mm")}</div>
                     </div>
@@ -334,7 +345,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
                     type="text"
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
-                    placeholder="Tanya FinAi..."
+                    placeholder="Tanya FinAI..."
                     className="flex-1 border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   <button type="submit" disabled={isChatLoading} className="bg-primary text-primary-foreground p-2 rounded-xl hover:opacity-90 disabled:opacity-50">
@@ -350,7 +361,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
         {/* view transaksi */}
         {activeTab === "transactions" && (
            <div className="max-w-4xl mx-auto space-y-4">
-             <h2 className="font-medium text-2xl">Riwayat Transaksi</h2>
+             <h2 className="font-medium text-xl md:text-2xl">Riwayat Transaksi</h2>
              <div className="bg-card border rounded-xl overflow-hidden shadow-sm">
                 <div className="divide-y">
                   {state.transactions.map(t => {
@@ -358,7 +369,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
                       return (
                         <div key={t.id} className="flex items-center justify-between p-4 bg-background">
                           <div className="flex items-center gap-3">
-                             <div className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${cat.color.replace('bg-', 'bg-').replace('-500', '-500/20')}`}>{cat.emoji}</div>
+                             <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl md:text-2xl ${cat.color.replace('bg-', 'bg-').replace('-500', '-500/20')}`}>{cat.emoji}</div>
                              <div>
                                <div className="font-medium text-sm">{t.title}</div>
                                <div className="text-xs text-muted-foreground">{format(new Date(t.createdAt), "dd MMM yyyy, HH:mm", {locale: id})} &bull; {cat.name}</div>
@@ -381,7 +392,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
         {activeTab === "chat" && (
           <div className="flex flex-col bg-card border rounded-xl shadow-sm overflow-hidden h-[calc(100vh-8rem)] lg:h-[calc(100vh-2rem)]">
               <div className="p-4 border-b bg-muted/30 font-medium flex items-center gap-2">
-                <Bot className="w-5 h-5 text-primary" /> FinAi Advisor
+                <Bot className="w-5 h-5 text-primary" /> FinAI Advisor
               </div>
               <div className="flex-1 overflow-y-auto p-4 space-y-4">
                 {state.chats.length === 0 ? (
@@ -395,7 +406,17 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
                   state.chats.map(msg => (
                     <div key={msg.id} className={`flex flex-col max-w-[85%] ${msg.role === 'user' ? 'ml-auto items-end' : 'mr-auto items-start'}`}>
                       <div className={`p-3 rounded-lg text-sm ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-tr-none' : 'bg-muted border rounded-tl-none'}`}>
-                         <div className="whitespace-pre-wrap">{msg.content}</div>
+                         <ReactMarkdown 
+                           components={{
+                             ul: ({node, ...props}) => <ul className="list-disc pl-4 space-y-1 my-2" {...props} />,
+                             ol: ({node, ...props}) => <ol className="list-decimal pl-4 space-y-1 my-2" {...props} />,
+                             li: ({node, ...props}) => <li className="" {...props} />,
+                             strong: ({node, ...props}) => <strong className="font-bold" {...props} />,
+                             p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                           }}
+                         >
+                           {msg.content}
+                         </ReactMarkdown>
                       </div>
                       <div className="text-[10px] text-muted-foreground mt-1">{format(new Date(msg.createdAt), "HH:mm")}</div>
                     </div>
@@ -418,7 +439,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
                     type="text"
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
-                    placeholder="Tanya FinAi..."
+                    placeholder="Tanya FinAI..."
                     className="flex-1 border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   <button type="submit" disabled={isChatLoading} className="bg-primary text-primary-foreground p-2 rounded-xl hover:opacity-90 disabled:opacity-50">
@@ -433,7 +454,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
         {activeTab === "categories" && (
            <div className="max-w-4xl mx-auto space-y-4">
              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <h2 className="font-medium text-2xl">Kategori Pengeluaran</h2>
+                <h2 className="font-medium text-xl md:text-2xl">Kategori Pengeluaran</h2>
                 <button onClick={() => openCategoryModal()} className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-xl text-sm font-medium hover:opacity-90 w-full sm:w-auto">
                   <Plus className="w-4 h-4"/> Tambah Kategori
                 </button>
@@ -441,7 +462,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {state.categories.map(c => (
                   <div key={c.id} onClick={() => openCategoryModal(c)} className="p-4 border rounded-xl flex items-center gap-4 bg-card cursor-pointer hover:border-primary transition-colors">
-                    <div className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl ${c.color.replace('bg-', 'bg-').replace('-500', '-500/20')}`}>
+                    <div className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl md:text-2xl ${c.color.replace('bg-', 'bg-').replace('-500', '-500/20')}`}>
                       {c.emoji}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -462,7 +483,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
           { id: "dashboard", icon: LayoutDashboard, label: "Home" },
           { id: "transactions", icon: History, label: "Riwayat" },
           { id: "categories", icon: Wallet, label: "Kategori" },
-          { id: "chat", icon: MessageSquare, label: "FinAi" }
+          { id: "chat", icon: MessageSquare, label: "FinAI" }
         ].map(item => (
           <button
             key={item.id}
@@ -484,7 +505,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
                <div className="grid grid-cols-4 gap-4">
                  <div className="col-span-1 flex flex-col gap-[5px] relative">
                    <label className="text-sm font-medium">Emoji</label>
-                   <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} className="w-full h-[42px] flex items-center justify-center border rounded-xl text-2xl hover:bg-muted transition-colors">
+                   <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} className="w-full h-[42px] flex items-center justify-center border rounded-xl text-xl md:text-2xl hover:bg-muted transition-colors">
                      {catFormData.emoji}
                    </button>
                    {showEmojiPicker && (
