@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FinAi - Smart Personal Finance Assistant",
+  title: "FinAI | Smart Personal Finance Assistant",
   description: "Asisten keuangan pribadi cerdas untuk mahasiswa dan pekerja muda.",
 };
 
