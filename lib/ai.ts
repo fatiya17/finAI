@@ -23,17 +23,19 @@ Kamu adalah FinAi, teman sekaligus asisten keuangan pribadi yang asyik, suportif
 `;
 
 export async function askFinAi(prompt: string, state: AppState, history: ChatMessage[]): Promise<string> {
-  if (!state.profile.geminiApiKey) {
+  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+
+  if (!apiKey) {
     // fallback lokal kalo api key kosong
     const sisaNeeds = state.profile.monthlyIncome * (state.profile.budgetRatio.needs / 100) - state.transactions.filter(t => t.bucket === "needs").reduce((a, b) => a + b.amount, 0);
     const sisaWants = state.profile.monthlyIncome * (state.profile.budgetRatio.wants / 100) - state.transactions.filter(t => t.bucket === "wants").reduce((a, b) => a + b.amount, 0);
     
-    let fallbackMsg = "Wah, kamu belum masukin API Key Gemini nih di pengaturan. Tapi santai, aku cek sekilas aja ya: ";
-    fallbackMsg += `\nUang saku bulan ini Rp${state.profile.monthlyIncome.toLocaleString('id-ID')}. Sisa Kebutuhan Pokok Rp${sisaNeeds.toLocaleString('id-ID')} dan sisa Gaya Hidup Rp${sisaWants.toLocaleString('id-ID')}. \nPasang API Key dulu yuk biar kita bisa ngobrol lebih asyik!`;
+    let fallbackMsg = "Wah, API Key Gemini belum diatur di file `.env.local` nih. Tapi santai, aku cek sekilas aja ya: ";
+    fallbackMsg += `\nUang saku bulan ini Rp${state.profile.monthlyIncome.toLocaleString('id-ID')}. Sisa Kebutuhan Pokok Rp${sisaNeeds.toLocaleString('id-ID')} dan sisa Gaya Hidup Rp${sisaWants.toLocaleString('id-ID')}. \nTambahkan API Key di \`.env.local\` biar kita bisa ngobrol lebih asyik!`;
     return fallbackMsg;
   }
 
-  const ai = new GoogleGenAI({ apiKey: state.profile.geminiApiKey });
+  const ai = new GoogleGenAI({ apiKey: apiKey });
 
   // bikin context dari state
   const contextMsg = `
@@ -71,6 +73,6 @@ ${state.transactions.slice(0, 15).map(t => `  * ${t.title} - Rp${t.amount} (${t.
     return response.text || "Aduh, maaf banget aku lagi gagal fokus. Coba tanya lagi ya!";
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return "Ups, koneksi ke Gemini API terputus atau API Key kamu salah. Coba cek lagi di pengaturan ya.";
+    return "Ups, koneksi ke Gemini API terputus atau API Key kamu salah. Coba cek lagi konfigurasi \`.env.local\` ya.";
   }
 }

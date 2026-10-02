@@ -24,7 +24,7 @@ export function Onboarding({
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+    <div className="min-h-screen flex items-start justify-center p-4 pt-12 md:pt-24 bg-background">
       <div className="w-full max-w-2xl text-card-foreground">
         {/* progress bar */}
         <div className="flex bg-muted/50 h-2">
@@ -35,8 +35,8 @@ export function Onboarding({
           {step === 1 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
               <div className="space-y-2">
-                <h2 className="text-3xl font-medium tracking-tight">Halo! Kenalan Dulu Yuk 👋</h2>
-                <p className="text-muted-foreground text-base">FinAi siap bantu ngatur uang kamu biar nggak boncos di akhir bulan.</p>
+                <h2 className="text-2xl md:text-3xl font-medium tracking-tight">Welcome to FinAI 👋</h2>
+                <p className="text-muted-foreground text-base">FinAI siap bantu ngatur uang kamu biar nggak boncos di akhir bulan.</p>
               </div>
               
               <div className="space-y-6">
@@ -52,20 +52,20 @@ export function Onboarding({
                 </div>
                 <div className="flex flex-col gap-[5px]">
                   <label className="text-sm font-medium">Status Saat Ini</label>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-3">
                     {["mahasiswa", "first-jobber", "umum"].map(role => (
                       <button
                         key={role}
                         onClick={() => setProfile({ ...profile, role: role as any })}
-                        className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${profile.role === role ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}
+                        className={`flex flex-col items-center justify-center p-2 sm:p-4 rounded-xl border-2 transition-all ${profile.role === role ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}
                       >
-                        <span className="capitalize font-medium">{role.replace("-", " ")}</span>
+                        <span className="capitalize font-medium text-[11px] sm:text-base text-center leading-tight">{role.replace("-", " ")}</span>
                       </button>
                     ))}
                   </div>
                 </div>
                 <div className="flex flex-col gap-[5px]">
-                  <label className="text-sm font-medium">Tujuan Utama Finansial (Bisa pilih lebih dari satu)</label>
+                  <label className="text-sm font-medium">Tujuan Utama Finansial</label>
                   <div className="flex flex-wrap gap-2 justify-between">
                     {[
                       "Dana Darurat", "Beli Gadget", "Liburan", 
@@ -81,7 +81,7 @@ export function Onboarding({
                             : [...profile.financialGoal, goal];
                           setProfile({ ...profile, financialGoal: newGoals });
                         }}
-                        className={`grow text-center px-4 py-2 rounded-full border text-sm font-medium transition-all ${profile.financialGoal.includes(goal) ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:border-primary/50 text-muted-foreground'}`}
+                        className={`grow text-center px-4 py-2 rounded-full border text-[11px] sm:text-sm leading-tight font-medium transition-all ${profile.financialGoal.includes(goal) ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:border-primary/50 text-muted-foreground'}`}
                       >
                         {goal}
                       </button>
@@ -95,7 +95,7 @@ export function Onboarding({
           {step === 2 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
               <div className="space-y-2">
-                <h2 className="text-3xl font-medium tracking-tight">Pemasukan & Anggaran 💰</h2>
+                <h2 className="text-2xl md:text-3xl font-medium tracking-tight">Pemasukan & Anggaran</h2>
                 <p className="text-muted-foreground text-base">Berapa uang sakumu, dan gimana kamu mau baginya?</p>
               </div>
 
@@ -186,7 +186,7 @@ export function Onboarding({
           {step === 3 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
               <div className="space-y-2">
-                <h2 className="text-3xl font-medium tracking-tight">Kategori Pengeluaran 🏷️</h2>
+                <h2 className="text-2xl md:text-3xl font-medium tracking-tight">Kategori Pengeluaran</h2>
                 <p className="text-muted-foreground text-base">Cek kategori awal ini, kamu bisa sesuaikan nanti di dashboard.</p>
               </div>
               
@@ -209,7 +209,7 @@ export function Onboarding({
           {step === 4 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
               <div className="space-y-2">
-                <h2 className="text-3xl font-medium tracking-tight">Personalisasi Tampilan 🎨</h2>
+                <h2 className="text-2xl md:text-3xl font-medium tracking-tight">Personalisasi Tampilan</h2>
                 <p className="text-muted-foreground text-base">Pilih warna favoritmu agar aplikasi lebih personal.</p>
               </div>
 
@@ -254,7 +254,7 @@ export function Onboarding({
 
                 <div className="space-y-3">
                   <label className="text-sm font-medium">Warna Aksen</label>
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+                  <div className="grid grid-cols-5 gap-2 sm:gap-3">
                     {[
                       { id: "blue", hex: "#1e73b1", darkHex: "#d1efff" },
                       { id: "violet", hex: "#8560c0", darkHex: "#d9c2ff" },
@@ -289,14 +289,15 @@ export function Onboarding({
           )}
 
           {/* nav footer */}
-          <div className="mt-10 flex items-center justify-between pt-6 border-t">
-            <button
-              onClick={prevStep}
-              disabled={step === 1}
-              className="px-4 py-2 border rounded-xl text-sm font-medium disabled:opacity-50 hover:bg-muted transition-colors"
-            >
-              Kembali
-            </button>
+          <div className={`mt-10 flex items-center pt-6 border-t ${step === 1 ? 'justify-end' : 'justify-between'}`}>
+            {step > 1 && (
+              <button
+                onClick={prevStep}
+                className="px-4 py-2 border rounded-xl text-sm font-medium hover:bg-muted transition-colors"
+              >
+                Kembali
+              </button>
+            )}
             
             {step < 4 ? (
               <button
@@ -311,7 +312,7 @@ export function Onboarding({
                 onClick={handleComplete}
                 className="px-6 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium flex items-center gap-2 hover:bg-primary/90 transition-colors"
               >
-                Mulai Gunakan FinAi <Check className="w-4 h-4" />
+                Mulai Gunakan FinAI <Check className="w-4 h-4" />
               </button>
             )}
           </div>

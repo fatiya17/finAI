@@ -24,7 +24,6 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
   const [catFormData, setCatFormData] = useState<Partial<CategoryItem>>({});
   const [keywordInput, setKeywordInput] = useState("");
 
-  const [apiKeyInput, setApiKeyInput] = useState(state.profile.geminiApiKey || "");
   const [monthlyIncomeInput, setMonthlyIncomeInput] = useState(state.profile.monthlyIncome.toString());
 
   // kalkulasi turunan
@@ -589,18 +588,6 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
                </div>
 
                <div className="flex flex-col gap-[5px]">
-                 <label className="text-sm font-medium">Gemini API Key (Opsional)</label>
-                 <input 
-                    type="password" 
-                    value={apiKeyInput}
-                    onChange={(e) => setApiKeyInput(e.target.value)}
-                    className="w-full border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="AIzaSy..."
-                 />
-                 <p className="text-xs text-muted-foreground">Digunakan untuk chat pintar. Jika kosong, akan pakai jawaban otomatis standar.</p>
-               </div>
-
-               <div className="flex flex-col gap-[5px]">
                   <label className="text-sm font-medium">Tema Warna</label>
                   <div className="flex gap-2">
                     {["light", "dark", "system"].map(theme => (
@@ -674,7 +661,7 @@ export function Dashboard({ state, setState }: { state: AppState, setState: (s: 
                  <button 
                    onClick={() => {
                      const newIncome = parseInt(monthlyIncomeInput.replace(/\D/g, '')) || 0;
-                     const newState = {...state, profile: {...state.profile, geminiApiKey: apiKeyInput, monthlyIncome: newIncome}};
+                     const newState = {...state, profile: {...state.profile, monthlyIncome: newIncome}};
                      setState(newState);
                      saveState(newState);
                      

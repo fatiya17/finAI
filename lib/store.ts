@@ -14,7 +14,6 @@ export interface UserProfile {
     wants: number;
     savings: number;
   };
-  geminiApiKey: string;
 }
 
 export interface CategoryItem {
@@ -66,8 +65,7 @@ export const DEFAULT_PROFILE: UserProfile = {
   isOnboarded: false,
   themeMode: "light",
   accentColor: "blue",
-  budgetRatio: { needs: 50, wants: 30, savings: 20 },
-  geminiApiKey: ""
+  budgetRatio: { needs: 50, wants: 30, savings: 20 }
 };
 
 export const STORAGE_KEY = "finai_app_state_v1";
