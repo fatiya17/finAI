@@ -1,4 +1,5 @@
-export type BudgetBucket = "needs" | "wants" | "savings";
+export type BudgetBucket = "needs" | "wants" | "savings" | "income";
+export type TransactionType = "expense" | "income";
 export type AccentColor = "blue" | "violet" | "pink" | "yellow" | "green";
 
 export interface UserProfile {
@@ -27,6 +28,7 @@ export interface CategoryItem {
 
 export interface TransactionItem {
   id: string;
+  type?: TransactionType;
   title: string;
   amount: number;
   categoryId: string;
@@ -49,12 +51,13 @@ export interface AppState {
 }
 
 export const DEFAULT_CATEGORIES: CategoryItem[] = [
-  { id: "c1", name: "Makan Harian", emoji: "🍜", color: "bg-emerald-500", bucket: "needs", keywords: ["makan", "nasi", "minum", "warteg", "sarapan", "siang", "malam", "food"] },
-  { id: "c2", name: "Transportasi", emoji: "🚌", color: "bg-blue-500", bucket: "needs", keywords: ["gojek", "grab", "bensin", "angkot", "kereta", "krl", "parkir"] },
-  { id: "c3", name: "Kebutuhan Kuliah/Kerja", emoji: "📚", color: "bg-slate-500", bucket: "needs", keywords: ["buku", "print", "fotokopi", "tugas", "stationery"] },
-  { id: "c4", name: "Ngopi & Kafe", emoji: "☕", color: "bg-amber-500", bucket: "wants", keywords: ["kopi", "kafe", "cafe", "nongkrong", "nugas", "starbucks", "janji jiwa"] },
-  { id: "c5", name: "Kuota & Hiburan", emoji: "📱", color: "bg-rose-500", bucket: "wants", keywords: ["kuota", "pulsa", "paket data", "netflix", "spotify", "nonton", "bioskop"] },
-  { id: "c6", name: "Tabungan Darurat", emoji: "💰", color: "bg-violet-500", bucket: "savings", keywords: ["tabung", "darurat", "simpanan", "investasi"] }
+  { id: "c1", name: "Makan Harian", emoji: "🍜", color: "bg-emerald-200", bucket: "needs", keywords: ["makan", "nasi", "minum", "warteg", "sarapan", "siang", "malam", "food"] },
+  { id: "c2", name: "Transportasi", emoji: "🚌", color: "bg-blue-200", bucket: "needs", keywords: ["gojek", "grab", "bensin", "angkot", "kereta", "krl", "parkir"] },
+  { id: "c3", name: "Kebutuhan Kuliah/Kerja", emoji: "📚", color: "bg-slate-300", bucket: "needs", keywords: ["buku", "print", "fotokopi", "tugas", "stationery"] },
+  { id: "c4", name: "Ngopi & Kafe", emoji: "☕", color: "bg-amber-200", bucket: "wants", keywords: ["kopi", "kafe", "cafe", "nongkrong", "nugas", "starbucks", "janji jiwa"] },
+  { id: "c5", name: "Kuota & Hiburan", emoji: "📱", color: "bg-rose-200", bucket: "wants", keywords: ["kuota", "pulsa", "paket data", "netflix", "spotify", "nonton", "bioskop"] },
+  { id: "c6", name: "Tabungan Darurat", emoji: "💰", color: "bg-violet-200", bucket: "savings", keywords: ["tabung", "darurat", "simpanan", "investasi"] },
+  { id: "c7", name: "Pemasukan Tambahan", emoji: "💵", color: "bg-emerald-200", bucket: "income", keywords: ["gaji", "bonus", "thr", "dikasih", "jual", "fee", "transfer", "masuk"] }
 ];
 
 export const DEFAULT_PROFILE: UserProfile = {
