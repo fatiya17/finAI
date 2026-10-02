@@ -193,7 +193,7 @@ export function Onboarding({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-2">
                 {categories.map((c, i) => (
                   <div key={c.id} className="p-3 border rounded-xl flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${c.color.replace('bg-', 'bg-').replace('-500', '-500/20')} ${c.color.replace('bg-', 'text-').replace('-500', '-600')}`}>
+                    <div className="shrink-0 w-10 h-10 flex items-center justify-center text-2xl">
                       {c.emoji}
                     </div>
                     <div className="flex-1">
